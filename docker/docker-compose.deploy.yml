@@ -1,0 +1,86 @@
+version: "3.9"
+
+services:
+  migrations:
+    image: ghcr.io/keletsomolefe/brocabs:staging
+    container_name: brocabs-migrations
+    entrypoint: ["/usr/src/app/apps/api/docker-migrate.sh"]
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/brocabs
+    networks:
+      - db_net
+    restart: "no"
+
+  brocabs-app:
+    image: ghcr.io/keletsomolefe/brocabs:staging
+    container_name: brocabs
+    restart: unless-stopped
+    depends_on:
+      migrations:
+        condition: service_completed_successfully
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/brocabs
+      FUSIONAUTH_API_KEY: 4737ea8520bd454caabb7cb3d36e14bc1832c0d3f70a4189b82598670f11b1bd
+      FUSIONAUTH_BROCABS_RIDER_APP_ID: ba7a853d-c1bb-4932-879e-7d53f21e7d71
+      FUSIONAUTH_BROCABS_DRIVER_APP_ID: 3d3bb9fd-2ad2-4d4b-9a1a-4a9454d99753
+      FUSIONAUTH_BROCABS_ADMIN_APP_ID: 2c291303-d06d-4866-971b-82013040e186
+      FUSIONAUTH_BASE_URL: http://fusionauth:9011
+      PLT_DB_APPLY_MIGRATIONS: true
+      PLT_MANAGEMENT_API: true
+      PLT_SERVER_HOSTNAME: 0.0.0.0
+      PLT_SERVER_LOGGER_LEVEL: info
+      PORT: 3042
+      PLT_ADMIN_SECRET: supersecretadminpassword
+      REDIS_URL: redis://redis:6379
+      BULK_SMS_CLIENT_ID: a6774c59-a00b-40e6-bdfd-1d91a432bef6
+      BULK_SMS_API_SECRET: 39e6707e-7ad6-4bfe-a10e-41c480ef8f5d
+      VITE_GOOGLE_MAPS_API_KEY: AIzaSyAEKZy9r3mIFN6gNvgPhOS4p4TTPMN3TX4
+      AWS_ACCESS_KEY_ID: DO00R6BQXHQ47BQHZTA3
+      AWS_SECRET_ACCESS_KEY: IS47UHsvaJ0tRfHCd9gdS+0s/T7Zh39vfmK1nlaXEuI
+      AWS_STORAGE_ENDPOINT: https://fra1.digitaloceanspaces.com
+      AWS_STORAGE_REGION: fra1
+      AWS_STORAGE_BUCKET: brocabs
+      MQTT_JWT_SECRET: changeme
+      MQTT_JWT_ISSUER: brocabs-api
+      MQTT_SYSTEM_SECRET: changeme
+      MQTT_BROKER_URL: ws://brocabs-realtime:8888
+      MQTT_SYSTEM_USERNAME: system
+      EXPO_PUBLIC_MQTT_HOST: brocabs-realtime.nativesounds.co.za
+      EXPO_PUBLIC_MQTT_PORT: "443"
+      EXPO_PUBLIC_MQTT_SSL: "true"
+      PAYMENT_PROVIDER_MOD: production
+      TRADESAFE_CLIENT_ID: 9fe855d5-92ba-49b0-90ae-e00549e7e58c
+      TRADESAFE_CLIENT_SECRET: UzxlOE1vFWo3iE8AAqVbhVs3iHZE4VHTqJDQ6mbD
+      TRADESAFE_ORGANIZATION_TOKEN: 31mQ311N9KFcFsB68BcRH
+      TRADESAFE_API_URL: https://api-developer.tradesafe.dev/graphql
+      TRADESAFE_AUTH_URL: https://auth.tradesafe.co.za/oauth/token
+      GOOGLE_MAPS_API_KEY: AIzaSyByYQq-tJ06NVRlFiBnWgeemCiKVcHth1c
+    networks:
+      - db_net
+      - redis_net
+      - caddy
+
+  brocabs-realtime:
+    image: ghcr.io/keletsomolefe/brocabs-realtime:latest
+    container_name: brocabs-realtime
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 8888
+      MQTT_JWT_SECRET: changeme
+      MQTT_SYSTEM_SECRET: changeme
+    networks:
+      - caddy
+
+networks:
+  db_net:
+    name: db_net
+    external: true
+  redis_net:
+    name: redis_net
+    external: true
+  caddy:
+    name: caddy
+    external: true

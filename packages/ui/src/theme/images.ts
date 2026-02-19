@@ -1,0 +1,17 @@
+export const Images = {
+  wallet: require("../assets/images/wallet.png"),
+  "logo-light": require("../assets/images/logo-light.png"),
+  "logo-dark": require("../assets/images/logo-dark.png"),
+  "logo-black": require("../assets/images/logo-black.png"),
+  mascot: require("../assets/images/mascot.png"),
+  "mascot-ride-not-found": require("../assets/images/mascot-ride-not-found.png"),
+  "car-medium-white": require("../assets/images/car-medium-white.png"),
+  "car-big-bro-white": require("../assets/images/car-big-bro-white.png"),
+  "car-big-bro-scholar-white": require("../assets/images/car-big-bro-scholar-white.png"),
+  "car-big-bro-plus-white": require("../assets/images/car-big-bro-plus-white.png"),
+  "car-bro-fam-white": require("../assets/images/car-bro-fam-white.png"),
+  "car-super-bro-white": require("../assets/images/car-super-bro-white.png"),
+  "logo-navbar": require("../assets/images/logo-navbar.png"),
+  "bro-car": require("../assets/images/bro-car.png"),
+  "mascot-warning": require("../assets/images/mascot-warning.png"),
+};

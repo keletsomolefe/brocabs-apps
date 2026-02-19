@@ -1,0 +1,17 @@
+Dockerfile
+.dockerignore
+node_modules
+npm-debug.log
+README.md
+.next
+.git
+.env*
+gitignore
+*.md
+.next
+.vscode
+apps/rider
+apps/driver
+.expo
+.github
+docker

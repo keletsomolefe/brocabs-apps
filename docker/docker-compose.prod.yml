@@ -1,0 +1,66 @@
+services:
+  migrations:
+    image: ghcr.io/keletsomolefe/brocabs:prod
+    container_name: brocabs-migrations
+    entrypoint: ["/usr/src/app/apps/api/docker-migrate.sh"]
+    env_file: .env
+    environment:
+      NODE_ENV: production
+    restart: "no"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  brocabs-app:
+    image: ghcr.io/keletsomolefe/brocabs:prod
+    container_name: brocabs
+    restart: unless-stopped
+    depends_on:
+      migrations:
+        condition: service_completed_successfully
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      PLT_DB_APPLY_MIGRATIONS: "true"
+      PLT_MANAGEMENT_API: "true"
+      PLT_SERVER_HOSTNAME: 0.0.0.0
+      PLT_SERVER_LOGGER_LEVEL: info
+      PORT: "3042"
+      MQTT_JWT_ISSUER: brocabs-api
+      MQTT_BROKER_URL: ws://brocabs-realtime:8888
+      MQTT_SYSTEM_USERNAME: system
+      EXPO_PUBLIC_MQTT_HOST: realtime.brocabs.co.za
+      EXPO_PUBLIC_MQTT_PORT: "443"
+      EXPO_PUBLIC_MQTT_SSL: "true"
+      PAYMENT_PROVIDER_MOD: production
+      AWS_STORAGE_ENDPOINT: https://fra1.digitaloceanspaces.com
+      AWS_STORAGE_REGION: fra1
+      AWS_STORAGE_BUCKET: brocabs
+      TRADESAFE_API_URL: https://api-developer.tradesafe.dev/graphql
+      TRADESAFE_AUTH_URL: https://auth.tradesafe.co.za/oauth/token
+    ports:
+      - "3042:3042"
+      - "9090:9090"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  brocabs-realtime:
+    image: africa-south1-docker.pkg.dev/brocabs-prod/brocabs-realtime/brocabs-realtime:latest
+    container_name: brocabs-realtime
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      PORT: "8888"
+    ports:
+      - "8888:8888"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

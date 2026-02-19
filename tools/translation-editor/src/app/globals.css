@@ -1,0 +1,204 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Brocabs Theme — matching the web admin dashboard */
+@theme {
+  /* Primary Purple Palette */
+  --color-primary-50: #e7e7ff;
+  --color-primary-100: #d3d4ff;
+  --color-primary-200: #b1b0ff;
+  --color-primary-300: #8781ff;
+  --color-primary-400: #6b50ff;
+  --color-primary-500: #5e29ff;
+  --color-primary-600: #5905ff;
+  --color-primary-700: #5500ff;
+  --color-primary-800: #4701d2;
+  --color-primary-900: #3a0ca3;
+  --color-primary-950: #0a021a;
+
+  /* Secondary Red Palette */
+  --color-secondary-50: #fff1f1;
+  --color-secondary-100: #ffe1e1;
+  --color-secondary-200: #ffc9c8;
+  --color-secondary-300: #ffa2a1;
+  --color-secondary-400: #fe6d6b;
+  --color-secondary-500: #f63431;
+  --color-secondary-600: #e4211e;
+  --color-secondary-700: #c01815;
+  --color-secondary-800: #9f1715;
+  --color-secondary-900: #831b19;
+  --color-secondary-950: #480807;
+
+  /* Neutral Grays */
+  --color-neutral-50: #f6f6f6;
+  --color-neutral-100: #e7e7e7;
+  --color-neutral-200: #d1d1d1;
+  --color-neutral-300: #b0b0b0;
+  --color-neutral-400: #888888;
+  --color-neutral-500: #6d6d6d;
+  --color-neutral-600: #5d5d5d;
+  --color-neutral-700: #4f4f4f;
+  --color-neutral-800: #454545;
+  --color-neutral-900: #3d3d3d;
+  --color-neutral-950: #07030d;
+
+  /* Semantic */
+  --color-success-300: #6ce9a6;
+  --color-success-400: #32d583;
+  --color-success-500: #319f43;
+  --color-warning-400: #fdb022;
+  --color-danger-600: #e4211e;
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  /* Map shadcn semantic vars to BroCabs brand */
+  --background: #f6f6f6;
+  --foreground: #07030d;
+  --card: #ffffff;
+  --card-foreground: #07030d;
+  --popover: #ffffff;
+  --popover-foreground: #07030d;
+  --primary: #5905ff;
+  --primary-foreground: #ffffff;
+  --secondary: #f6f6f6;
+  --secondary-foreground: #07030d;
+  --muted: #e7e7e7;
+  --muted-foreground: #6d6d6d;
+  --accent: #e7e7ff;
+  --accent-foreground: #3a0ca3;
+  --destructive: #e4211e;
+  --border: #e7e7e7;
+  --input: #d1d1d1;
+  --ring: #5905ff;
+  /* Sidebar */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #07030d;
+  --sidebar-primary: #5905ff;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e7e7ff;
+  --sidebar-accent-foreground: #3a0ca3;
+  --sidebar-border: #e7e7e7;
+  --sidebar-ring: #5905ff;
+}
+
+.dark {
+  --background: #07030d;
+  --foreground: #f6f6f6;
+  --card: #120e1e;
+  --card-foreground: #f6f6f6;
+  --popover: #120e1e;
+  --popover-foreground: #f6f6f6;
+  --primary: #8781ff;
+  --primary-foreground: #07030d;
+  --secondary: #1a1630;
+  --secondary-foreground: #f6f6f6;
+  --muted: #1a1630;
+  --muted-foreground: #b0b0b0;
+  --accent: #1e1050;
+  --accent-foreground: #d3d4ff;
+  --destructive: #fe6d6b;
+  --border: #2a2540;
+  --input: #2a2540;
+  --ring: #8781ff;
+  /* Sidebar */
+  --sidebar: #0c0816;
+  --sidebar-foreground: #f6f6f6;
+  --sidebar-primary: #8781ff;
+  --sidebar-primary-foreground: #07030d;
+  --sidebar-accent: #1e1050;
+  --sidebar-accent-foreground: #d3d4ff;
+  --sidebar-border: #2a2540;
+  --sidebar-ring: #8781ff;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family:
+    source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-neutral-100);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-neutral-300);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-neutral-400);
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #120e1e;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #2a2540;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #3d3560;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

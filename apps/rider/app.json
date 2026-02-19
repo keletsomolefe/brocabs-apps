@@ -1,0 +1,100 @@
+{
+  "expo": {
+    "name": "Bro",
+    "slug": "rider",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./src/assets/images/icon.png",
+    "scheme": "rider",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": false,
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "UIDesignRequiresCompatibility": true,
+        "UIDeviceFamily": [1],
+        "NSCameraUsageDescription": "Bro needs camera access to take your profile photo.",
+        "NSLocationWhenInUseUsageDescription": "Bro uses your location to find nearby drivers, determine your pickup location, calculate fares, and provide real-time ride tracking for navigation and safety.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Bro uses your location to find nearby drivers, determine your pickup location, calculate fares, and provide real-time ride tracking for navigation and safety.",
+        "UIBackgroundModes": ["remote-notification"]
+      },
+      "bundleIdentifier": "za.co.brocabs.staging"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./src/assets/images/adaptive-icon.png"
+      },
+      "googleServicesFile": "./google-services.json",
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false,
+      "versionCode": 0,
+      "package": "za.co.brocabs.staging"
+    },
+    "plugins": [
+      "./withNotifeeAndroidFix",
+      "@react-native-firebase/app",
+      "@react-native-firebase/messaging",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static",
+            "forceStaticLinking": ["RNFBApp"]
+          }
+        }
+      ],
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./src/assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#5E29FF"
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Bro needs access to your photos to let you change your profile picture.",
+          "cameraPermission": "Bro needs camera access to take your profile photo."
+        }
+      ],
+      [
+        "react-native-maps",
+        {
+          "iosGoogleMapsApiKey": "AIzaSyAEKZy9r3mIFN6gNvgPhOS4p4TTPMN3TX4",
+          "androidGoogleMapsApiKey": "AIzaSyAEKZy9r3mIFN6gNvgPhOS4p4TTPMN3TX4"
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Bro uses your location to find nearby drivers, determine your pickup location, calculate fares, and provide real-time ride tracking for navigation and safety.",
+          "locationAlwaysAndWhenInUsePermission": "Bro uses your location to find nearby drivers, determine your pickup location, calculate fares, and provide real-time ride tracking for navigation and safety."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "extra": {
+      "config": {
+        "stage": "prod",
+        "version": "1.0.0",
+        "mobileDeepLink": "brocabs-rider://",
+        "STAGE": "prod",
+        "IS_EAS": "true"
+      },
+      "router": {},
+      "eas": {
+        "projectId": "7c603065-e1e0-436c-8dbe-8293fa13dc39"
+      }
+    },
+    "owner": "brocabs"
+  }
+}

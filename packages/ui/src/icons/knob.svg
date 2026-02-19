@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" fill="none">
+  <defs>
+    <!-- Gradient simulates inner shadows: dark at top (#4F37D7), base in middle (#6B50FF), light at bottom (#9886FF) -->
+    <linearGradient id="knobGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4F37D7"/>
+      <stop offset="0.35" stop-color="#6B50FF"/>
+      <stop offset="0.65" stop-color="#6B50FF"/>
+      <stop offset="1" stop-color="#9886FF"/>
+    </linearGradient>
+  </defs>
+  <circle cx="13" cy="13" r="13" fill="url(#knobGradient)"/>
+</svg>

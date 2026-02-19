@@ -1,0 +1,236 @@
+{
+  "name": "@brocabs/ui",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "./src/index.ts",
+  "source": "./src/index.ts",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "types": "./src/index.ts"
+    },
+    "./text": {
+      "import": "./src/text.tsx",
+      "types": "./src/text.tsx"
+    },
+    "./animations": {
+      "import": "./src/animations.ts",
+      "types": "./src/animations.ts"
+    },
+    "./theme/images": {
+      "import": "./src/theme/images.ts",
+      "types": "./src/theme/images.ts"
+    },
+    "./theme/videos": {
+      "import": "./src/theme/videos.ts",
+      "types": "./src/theme/videos.ts"
+    },
+    "./theme/*": {
+      "import": "./src/theme/*.ts",
+      "types": "./src/theme/*.ts"
+    },
+    "./visible": {
+      "import": "./src/visible.tsx",
+      "types": "./src/visible.tsx"
+    },
+    "./unmount-onblur": {
+      "import": "./src/unmount-onblur.tsx",
+      "types": "./src/unmount-onblur.tsx"
+    },
+    "./layout": {
+      "import": "./src/layout.tsx",
+      "types": "./src/layout.tsx"
+    },
+    "./utils": {
+      "import": "./src/utils/index.ts",
+      "types": "./src/utils/index.ts"
+    },
+    "./features/authentication/auth-layout": {
+      "import": "./src/features/authentication/auth-layout.tsx",
+      "types": "./src/features/authentication/auth-layout.tsx"
+    },
+    "./features/authentication/mobile-number-screen": {
+      "import": "./src/features/authentication/mobile-number-screen.tsx",
+      "types": "./src/features/authentication/mobile-number-screen.tsx"
+    },
+    "./features/authentication/login-screen": {
+      "import": "./src/features/authentication/login-screen.tsx",
+      "types": "./src/features/authentication/login-screen.tsx"
+    },
+    "./features/authentication/otp-verification-screen": {
+      "import": "./src/features/authentication/otp-verification-screen.tsx",
+      "types": "./src/features/authentication/otp-verification-screen.tsx"
+    },
+    "./features/authentication/forgot-password-screen": {
+      "import": "./src/features/authentication/forgot-password-screen.tsx",
+      "types": "./src/features/authentication/forgot-password-screen.tsx"
+    },
+    "./features/authentication/reset-password-screen": {
+      "import": "./src/features/authentication/reset-password-screen.tsx",
+      "types": "./src/features/authentication/reset-password-screen.tsx"
+    },
+    "./features/authentication/components/otp-input": {
+      "import": "./src/features/authentication/components/otp-input.tsx",
+      "types": "./src/features/authentication/components/otp-input.tsx"
+    },
+    "./screens/auth-landing": {
+      "import": "./src/screens/auth-landing.tsx",
+      "types": "./src/screens/auth-landing.tsx"
+    },
+    "./icons": {
+      "import": "./src/icons/icon.tsx",
+      "types": "./src/icons/icon.tsx"
+    },
+    "./icons/registry": {
+      "import": "./src/icons/index.ts",
+      "types": "./src/icons/index.ts"
+    },
+    "./modal-box": {
+      "import": "./src/modal-box/index.tsx",
+      "types": "./src/modal-box/index.tsx"
+    },
+    "./services/pubsub": {
+      "import": "./src/services/pubsub.ts",
+      "types": "./src/services/pubsub.ts"
+    },
+    "./trip-price": {
+      "import": "./src/trip-price/index.tsx",
+      "types": "./src/trip-price/index.tsx"
+    },
+    "./button": {
+      "import": "./src/button/index.tsx",
+      "types": "./src/button/index.tsx"
+    },
+    "./dialogs": {
+      "import": "./src/dialogs/index.tsx",
+      "types": "./src/dialogs/index.tsx"
+    },
+    "./hooks/use-pressanimation": {
+      "import": "./src/hooks/use-pressanimation.ts",
+      "types": "./src/hooks/use-pressanimation.ts"
+    },
+    "./hooks/use-current-location": {
+      "import": "./src/hooks/use-current-location.ts",
+      "types": "./src/hooks/use-current-location.ts"
+    },
+    "./hooks/use-current-address": {
+      "import": "./src/hooks/use-current-address.ts",
+      "types": "./src/hooks/use-current-address.ts"
+    },
+    "./utils/shadow": {
+      "import": "./src/utils/shadow.ts",
+      "types": "./src/utils/shadow.ts"
+    },
+    "./form/form-phone-input": {
+      "import": "./src/form/form-phone-input.tsx",
+      "types": "./src/form/form-phone-input.tsx"
+    },
+    "./form/form-input": {
+      "import": "./src/form/form-input.tsx",
+      "types": "./src/form/form-input.tsx"
+    },
+    "./form/form-field": {
+      "import": "./src/form/form-field.tsx",
+      "types": "./src/form/form-field.tsx"
+    },
+    "./phone-field/helpers": {
+      "import": "./src/phone-field/helpers.ts",
+      "types": "./src/phone-field/helpers.ts"
+    },
+    "./phone-field": {
+      "import": "./src/phone-field/index.tsx",
+      "types": "./src/phone-field/index.tsx"
+    },
+    "./sheet/backdrop": {
+      "import": "./src/sheet/backdrop.tsx",
+      "types": "./src/sheet/backdrop.tsx"
+    },
+    "./textfield/styles": {
+      "import": "./src/textfield/styles.ts",
+      "types": "./src/textfield/styles.ts"
+    },
+    "./stores/location-store": {
+      "import": "./src/stores/location-store.ts",
+      "types": "./src/stores/location-store.ts"
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.21.0",
+  "devDependencies": {
+    "@brocabs/client": "workspace:*",
+    "@expo/vector-icons": "^14.0.0",
+    "@gorhom/bottom-sheet": "^5.0.0",
+    "@hookform/resolvers": "^5.2.2",
+    "@react-native-documents/picker": "^11.0.0",
+    "@react-navigation/native": "^7.1.22",
+    "@tanstack/react-query": "^5.90.7",
+    "@types/react": "~19.1.10",
+    "@types/react-dom": "~19.1.0",
+    "expo-asset": "^12.0.10",
+    "expo-image-picker": "~16.0.3",
+    "expo-localization": "^17.0.7",
+    "expo-location": "^19.0.7",
+    "expo-router": "~6.0.14",
+    "libphonenumber-js": "^1.12.35",
+    "lottie-react-native": "^7.3.4",
+    "pressto": "^0.6.0",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-native": "0.81.5",
+    "react-native-confirmation-code-field": "^8.0.1",
+    "react-native-element-dropdown": "^2.12.0",
+    "react-native-gifted-chat": "3.3.2",
+    "react-native-reanimated": "~4.1.1",
+    "react-native-svg": "^15.14.0",
+    "typescript": "~5.9.2",
+    "zod": "~4.3.5",
+    "zustand": "^5.0.8",
+    "axios": "^1.13.2"
+  },
+  "peerDependencies": {
+    "@brocabs/client": "*",
+    "@emotion/native": "*",
+    "@emotion/react": "*",
+    "@expo/vector-icons": "*",
+    "@gorhom/bottom-sheet": "*",
+    "@hookform/resolvers": "*",
+    "@react-native-documents/picker": "*",
+    "@shopify/flash-list": "^2.2.0",
+    "@tanstack/react-query": "*",
+    "@techstack/styled-system": "*",
+    "expo": "*",
+    "expo-asset": "^12.0.10",
+    "expo-checkbox": "^5.0.7",
+    "expo-image": "*",
+    "expo-image-picker": "*",
+    "expo-localization": "*",
+    "expo-location": "*",
+    "expo-router": "*",
+    "libphonenumber-js": "^1.12.35",
+    "lottie-react-native": "*",
+    "pressto": "*",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-hook-form": "*",
+    "react-native": "0.81.5",
+    "react-native-confirmation-code-field": "^8.0.1",
+    "react-native-element-dropdown": "*",
+    "react-native-gifted-chat": "3.3.2",
+    "react-native-keyboard-controller": "*",
+    "react-native-modal": "^14.0.0-rc.1",
+    "react-native-pager-view": "^6.9.1",
+    "react-native-reanimated": "~4.1.1",
+    "react-native-safe-area-context": "*",
+    "react-native-svg": "^15.14.0",
+    "react-native-tab-view": "^4.2.0",
+    "zod": "*",
+    "zustand": "^5.0.8",
+    "axios": "^1.13.2"
+  }
+}

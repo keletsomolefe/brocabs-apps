@@ -1,0 +1,31 @@
+{
+  "cSpell.words": [
+    "alertmanager",
+    "BROCABS",
+    "CLEANSPEAK",
+    "esbuild",
+    "FUSIONAUTH",
+    "ilike",
+    "massimo",
+    "openapitools",
+    "OPENSEARCH",
+    "Pressable",
+    "pressanimation",
+    "protobufjs",
+    "schemalock",
+    "springify",
+    "stackable",
+    "techstack",
+    "unrs",
+    "wattpm",
+    "worklets"
+  ],
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on"
+}

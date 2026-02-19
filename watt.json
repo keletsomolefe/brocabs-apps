@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schemas.platformatic.dev/@platformatic/runtime/3.26.0.json",
+  "watch": true,
+  "autoload": {
+    "path": "apps",
+    "exclude": [
+      "docs",
+      "rider",
+      "driver",
+      "realtime"
+    ]
+  },
+  "logger": {
+    "level": "{PLT_SERVER_LOGGER_LEVEL}"
+  },
+  "server": {
+    "hostname": "{PLT_SERVER_HOSTNAME}",
+    "port": "{PORT}"
+  },
+  "managementApi": "{PLT_MANAGEMENT_API}",
+  "entrypoint": "gateway",
+  "startTimeout": 300000,
+  "metrics": {
+    "hostname": "0.0.0.0",
+    "port": 9090,
+    "readiness": {
+      "endpoint": "/health"
+    },
+    "liveness": {
+      "endpoint": "/live"
+    }
+  }
+}

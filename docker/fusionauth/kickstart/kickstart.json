@@ -1,0 +1,117 @@
+{
+    "variables": {
+        "defaultTenantId": "30663132-6464-6665-3032-326466613934"
+    },
+    "apiKeys": [
+        {
+            "key": "#{ENV.FUSIONAUTH_API_KEY}"
+        }
+    ],
+    "requests": [
+        {
+            "method": "POST",
+            "url": "/api/application/#{ENV.FUSIONAUTH_BROCABS_RIDER_APP_ID}",
+            "tenantId": "#{defaultTenantId}",
+            "body": {
+                "application": {
+                    "name": "BroCabs Rider",
+                    "roles": [
+                        {
+                            "name": "rider",
+                            "description": "Rider account: request rides, view ride history, manage personal settings",
+                            "isDefault": true
+                        }
+                    ],
+                    "passwordlessConfiguration": {
+                        "enabled": true
+                    },
+                    "loginConfiguration": {
+                        "generateRefreshTokens": true,
+                        "allowTokenRefresh": true
+                    }
+                }
+            }
+        },
+        {
+            "method": "POST",
+            "url": "/api/application/#{ENV.FUSIONAUTH_BROCABS_DRIVER_APP_ID}",
+            "tenantId": "#{defaultTenantId}",
+            "body": {
+                "application": {
+                    "name": "BroCabs Driver",
+                    "roles": [
+                        {
+                            "name": "driver",
+                            "description": "Driver account: manage own profile, accept/complete ride requests, view assigned trips",
+                            "isDefault": true
+                        }
+                    ],
+                    "passwordlessConfiguration": {
+                        "enabled": true
+                    },
+                    "loginConfiguration": {
+                        "generateRefreshTokens": true,
+                        "allowTokenRefresh": true
+                    }
+                }
+            }
+        },
+        {
+            "method": "POST",
+            "url": "/api/application/#{ENV.FUSIONAUTH_BROCABS_ADMIN_APP_ID}",
+            "tenantId": "#{defaultTenantId}",
+            "body": {
+                "application": {
+                    "name": "BroCabs Admin",
+                    "roles": [
+                        {
+                            "name": "admin",
+                            "description": "Administrator",
+                            "isDefault": true
+                        }
+                    ],
+                    "passwordlessConfiguration": {
+                        "enabled": true
+                    },
+                    "loginConfiguration": {
+                        "generateRefreshTokens": true,
+                        "allowTokenRefresh": true
+                    }
+                }
+            }
+        },
+        {
+            "method": "POST",
+            "url": "/api/user/registration/8b4a627f-1683-408a-8002-264a0bad38db",
+            "tenantId": "#{defaultTenantId}",
+            "body": {
+                "user": {
+                    "email": "#{ENV.FUSIONAUTH_BROCABS_ADMIN_EMAIL}",
+                    "password": "#{ENV.FUSIONAUTH_BROCABS_ADMIN_PASSWORD}",
+                    "data": {
+                        "Company": "Bro Cabs"
+                    }
+                },
+                "registration": {
+                    "applicationId": "#{FUSIONAUTH_APPLICATION_ID}",
+                    "roles": [
+                        "admin"
+                    ]
+                }
+            }
+        },
+        {
+            "method": "POST",
+            "url": "/api/user/registration/8b4a627f-1683-408a-8002-264a0bad38db",
+            "tenantId": "#{defaultTenantId}",
+            "body": {
+                "registration": {
+                    "applicationId": "#{ENV.FUSIONAUTH_BROCABS_ADMIN_APP_ID}",
+                    "roles": [
+                        "admin"
+                    ]
+                }
+            }
+        }
+    ]
+}

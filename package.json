@@ -1,0 +1,42 @@
+{
+  "name": "brocabs",
+  "scripts": {
+    "predev": "turbo build --filter=@brocabs/mqtt-envelope",
+    "dev": "concurrently -k --raw \"FORCE_COLOR=1 wattpm dev\" \"FORCE_COLOR=1 pnpm --filter=realtime start:dev\"",
+    "build": "wattpm build",
+    "start": "wattpm start",
+    "generate:api": "npx @openapitools/openapi-generator-cli generate -i http://localhost:3042/api/docs-json -g typescript-fetch -o ./packages/client/generated",
+    "seed": "wattpm db:seed seed.ts",
+    "prebuild:ios:driver": "pnpm --filter driver run prebuild:ios",
+    "prebuild:android:driver": "pnpm --filter driver run prebuild:android",
+    "prebuild:ios:rider": "pnpm --filter rider run prebuild:ios",
+    "prebuild:android:rider": "pnpm --filter rider run prebuild:android",
+    "android:driver": "pnpm --filter driver run android",
+    "ios:driver": "pnpm --filter driver run ios",
+    "android:rider": "pnpm --filter rider run android",
+    "ios:rider": "pnpm --filter rider run ios",
+    "start:driver": "pnpm --filter driver run start",
+    "start:rider": "pnpm --filter rider run start",
+    "release:bump": "node scripts/release.mjs bump",
+    "release:apps": "node scripts/release.mjs release",
+    "release": "node scripts/release.mjs full"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "fastify": "^5.0.0",
+    "turbo": "^2.7.4"
+  },
+  "dependencies": {
+    "@platformatic/runtime": "~3.26.0",
+    "platformatic": "~3.26.0",
+    "wattpm": "~3.26.0"
+  },
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "packageManager": "pnpm@10.28.1",
+  "overrides": {
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  }
+}

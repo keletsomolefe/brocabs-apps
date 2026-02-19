@@ -1,0 +1,11 @@
+{
+  "$schema": "https://schemas.platformatic.dev/@platformatic/node/3.26.0.json",
+  "watch": false,
+  "application": {
+    "commands": {
+      "build": "pnpm run build",
+      "development": "pnpm run dev",
+      "production": "pnpm run start"
+    }
+  }
+}

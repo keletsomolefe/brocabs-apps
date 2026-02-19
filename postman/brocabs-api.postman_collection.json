@@ -1,0 +1,973 @@
+{
+  "info": {
+    "_postman_id": "brocabs-api-collection",
+    "name": "Brocabs API",
+    "description": "Complete API collection for Brocabs - Ride-hailing platform API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3042/api",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "description": "Authentication and authorization endpoints",
+      "item": [
+        {
+          "name": "OTP",
+          "description": "OTP-based authentication flow",
+          "item": [
+            {
+              "name": "Start OTP",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"identifierType\": \"phoneNumber\",\n  \"identifier\": \"+27123456789\",\n  \"applicationType\": \"rider\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/otp/start",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["auth", "otp", "start"]
+                },
+                "description": "Start OTP verification flow. Sends an OTP to the provided phone number or email.\n\n**identifierType**: `phoneNumber` or `email`\n\n**applicationType**: `rider` or `driver`"
+              },
+              "response": []
+            },
+            {
+              "name": "Start OTP (Email)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"identifierType\": \"email\",\n  \"identifier\": \"user@example.com\",\n  \"applicationType\": \"rider\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/otp/start",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["auth", "otp", "start"]
+                },
+                "description": "Start OTP verification using email address."
+              },
+              "response": []
+            },
+            {
+              "name": "Verify OTP",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"123456\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/otp/verify",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["auth", "otp", "verify"]
+                },
+                "description": "Verify the OTP code sent to the user. Must be called after `/auth/otp/start` in the same session."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifierType\": \"phoneNumber\",\n  \"identifier\": \"+27123456789\",\n  \"password\": \"yourPassword123\",\n  \"applicationType\": \"rider\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Login with password. Used for returning users who have already set a password.\n\n**identifierType**: `phoneNumber` or `email`\n\n**applicationType**: `rider` or `driver`\n\n**password**: Minimum 8 characters"
+          },
+          "response": []
+        },
+        {
+          "name": "Login (Email)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifierType\": \"email\",\n  \"identifier\": \"user@example.com\",\n  \"password\": \"yourPassword123\",\n  \"applicationType\": \"rider\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Login with email and password."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "profile"]
+            },
+            "description": "Get the authenticated user's profile. Requires authentication."
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "logout"]
+            },
+            "description": "Logout the current user. Revokes refresh token and destroys session."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Registration",
+      "description": "User registration endpoints (requires verified OTP session)",
+      "item": [
+        {
+          "name": "Register Driver",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"John Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"phoneNumber\": \"+27123456789\",\n  \"password\": \"securePassword123\",\n  \"confirmPassword\": \"securePassword123\",\n  \"avatar\": {\n    \"storagePath\": \"avatars/abc123.jpg\",\n    \"filename\": \"profile.jpg\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register/driver",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register", "driver"]
+            },
+            "description": "Register a new driver account. Requires a verified OTP session (IDENTITY_VERIFIED state).\n\n**avatar**: Optional - Upload file first via `/files/upload/:fileName`"
+          },
+          "response": []
+        },
+        {
+          "name": "Register Rider",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Jane Doe\",\n  \"email\": \"jane.doe@example.com\",\n  \"phoneNumber\": \"+27123456789\",\n  \"gender\": \"female\",\n  \"password\": \"securePassword123\",\n  \"confirmPassword\": \"securePassword123\",\n  \"avatar\": {\n    \"storagePath\": \"avatars/abc123.jpg\",\n    \"filename\": \"profile.jpg\"\n  },\n  \"nationalIdDocument\": {\n    \"storagePath\": \"documents/national-id-xyz.jpg\",\n    \"filename\": \"national-id.jpg\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register/rider",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register", "rider"]
+            },
+            "description": "Register a new rider account. Requires a verified OTP session (IDENTITY_VERIFIED state).\n\n**gender**: `male` or `female`\n\n**nationalIdDocument**: Required - Upload file first via `/files/upload/:fileName`\n\n**avatar**: Optional"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payments",
+      "description": "Payment processing endpoints",
+      "item": [
+        {
+          "name": "Process Payment (Wallet)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 100.50,\n  \"paymentMethod\": \"WALLET\",\n  \"description\": \"Ride payment\",\n  \"metadata\": {\n    \"rideId\": \"ride-123\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payments/process",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "process"]
+            },
+            "description": "Process a payment using wallet balance. Deducts funds from the user's wallet.\n\n**amount**: Minimum 0.01, max 2 decimal places\n\n**paymentMethod**: `WALLET`"
+          },
+          "response": []
+        },
+        {
+          "name": "Process Payment (Card)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 100.50,\n  \"paymentMethod\": \"CARD\",\n  \"cardId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"description\": \"Ride payment\",\n  \"metadata\": {\n    \"rideId\": \"ride-123\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payments/process",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "process"]
+            },
+            "description": "Process a payment using a saved card. Charges the card via the payment provider (TradeSafe).\n\n**cardId**: Required - UUID of the saved card\n\n**paymentMethod**: `CARD`"
+          },
+          "response": []
+        },
+        {
+          "name": "Process Payment (Cash)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 100.50,\n  \"paymentMethod\": \"CASH\",\n  \"description\": \"Cash on delivery\",\n  \"metadata\": {\n    \"rideId\": \"ride-123\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payments/process",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "process"]
+            },
+            "description": "Create a pending cash payment transaction. The transaction remains in PENDING status until completed.\n\n**paymentMethod**: `CASH`"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Transaction by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/payments/transactions/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "transactions", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "123e4567-e89b-12d3-a456-426614174000",
+                  "description": "Transaction UUID"
+                }
+              ]
+            },
+            "description": "Retrieve transaction details by its unique ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Transaction by Reference",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/payments/transactions/reference/:reference",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "transactions", "reference", ":reference"],
+              "variable": [
+                {
+                  "key": "reference",
+                  "value": "123e4567-e89b-12d3-a456-426614174000",
+                  "description": "Transaction reference"
+                }
+              ]
+            },
+            "description": "Retrieve transaction details by its reference number."
+          },
+          "response": []
+        },
+        {
+          "name": "Complete Cash Transaction",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/payments/transactions/:id/complete",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "transactions", ":id", "complete"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "123e4567-e89b-12d3-a456-426614174000",
+                  "description": "Transaction UUID"
+                }
+              ]
+            },
+            "description": "Complete a pending cash transaction. Called when cash payment has been received. Only works for transactions in PENDING status."
+          },
+          "response": []
+        },
+        {
+          "name": "Refund Transaction",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 50.00\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payments/transactions/:id/refund",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "transactions", ":id", "refund"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "123e4567-e89b-12d3-a456-426614174000",
+                  "description": "Transaction UUID"
+                }
+              ]
+            },
+            "description": "Refund a completed transaction. Only works for transactions in COMPLETED status.\n\n**amount**: Optional - Partial refund amount. If not provided, full refund is processed."
+          },
+          "response": []
+        },
+        {
+          "name": "Refund Transaction (Full)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/payments/transactions/:id/refund",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "transactions", ":id", "refund"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "123e4567-e89b-12d3-a456-426614174000",
+                  "description": "Transaction UUID"
+                }
+              ]
+            },
+            "description": "Process a full refund for a completed transaction."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Wallet",
+      "description": "Wallet management endpoints",
+      "item": [
+        {
+          "name": "Get Balance",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/wallet/balance",
+              "host": ["{{baseUrl}}"],
+              "path": ["wallet", "balance"]
+            },
+            "description": "Get the authenticated user's wallet balance. Creates a wallet if one doesn't exist."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Transaction History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/wallet/transactions?limit=50&offset=0",
+              "host": ["{{baseUrl}}"],
+              "path": ["wallet", "transactions"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50",
+                  "description": "Number of transactions to return (default: 50)"
+                },
+                {
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Pagination offset (default: 0)"
+                }
+              ]
+            },
+            "description": "Get the authenticated user's wallet transaction history with pagination."
+          },
+          "response": []
+        },
+        {
+          "name": "Add Funds",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 500.00,\n  \"description\": \"Top-up via bank transfer\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/wallet/add-funds",
+              "host": ["{{baseUrl}}"],
+              "path": ["wallet", "add-funds"]
+            },
+            "description": "Add funds to the user's wallet. **Note:** This endpoint is for admin/testing purposes."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cards & TradeSafe",
+      "description": "TradeSafe card and payment token endpoints",
+      "item": [
+        {
+          "name": "Token Operations",
+          "description": "User token management for TradeSafe",
+          "item": [
+            {
+              "name": "Create User Token",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"givenName\": \"John\",\n  \"familyName\": \"Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"mobile\": \"+27821234567\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cards/token",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["cards", "token"]
+                },
+                "description": "Create a TradeSafe user token. This token is required for all payment operations.\n\n**givenName**: User's first name\n\n**familyName**: User's last name\n\n**email**: Valid email address\n\n**mobile**: Phone number in E.164 format (e.g., +27821234567)\n\n**Note**: Banking details can be added later via the TradeSafe frontend."
+              },
+              "response": []
+            },
+            {
+              "name": "Get User Token",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/cards/token/:tokenId",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["cards", "token", ":tokenId"],
+                  "variable": [
+                    {
+                      "key": "tokenId",
+                      "value": "your-token-id-here",
+                      "description": "TradeSafe token ID"
+                    }
+                  ]
+                },
+                "description": "Retrieve details of a TradeSafe user token including balance information."
+              },
+              "response": []
+            },
+            {
+              "name": "Verify User Token",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/cards/token/:tokenId/verify",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["cards", "token", ":tokenId", "verify"],
+                  "variable": [
+                    {
+                      "key": "tokenId",
+                      "value": "your-token-id-here",
+                      "description": "TradeSafe token ID"
+                    }
+                  ]
+                },
+                "description": "Check if a TradeSafe user token is valid and active."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Checkout",
+          "description": "Payment checkout flow",
+          "item": [
+            {
+              "name": "Create Checkout Session",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Ride Payment\",\n  \"description\": \"Payment for ride from Sandton to OR Tambo\",\n  \"amount\": 250,\n  \"buyerTokenId\": \"buyer-token-id\",\n  \"sellerTokenId\": \"seller-token-id\",\n  \"reference\": \"RIDE-12345\",\n  \"embed\": false,\n  \"paymentMethods\": [\"CARD\", \"EFT\", \"MANUAL_EFT\"]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cards/checkout",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["cards", "checkout"]
+                },
+                "description": "Create a TradeSafe transaction and get a checkout URL for payment.\n\n**title**: Transaction title (required)\n\n**description**: Transaction description (required)\n\n**amount**: Amount in ZAR (required, minimum 1)\n\n**buyerTokenId**: TradeSafe token of the buyer (required)\n\n**sellerTokenId**: TradeSafe token of the seller (optional, defaults to org token)\n\n**reference**: External reference (optional)\n\n**embed**: Whether to use embedded checkout (optional, default false)\n\n**paymentMethods**: Array of allowed payment methods: CARD, EFT, MANUAL_EFT, OZOW, SNAPSCAN, ZAPPER"
+              },
+              "response": []
+            },
+            {
+              "name": "Get Checkout Link",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/cards/checkout/:transactionId/link?embed=false",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["cards", "checkout", ":transactionId", "link"],
+                  "query": [
+                    {
+                      "key": "embed",
+                      "value": "false",
+                      "description": "Whether to use embedded checkout"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "transactionId",
+                      "value": "transaction-id-here",
+                      "description": "TradeSafe transaction ID"
+                    }
+                  ]
+                },
+                "description": "Generate a new checkout URL for an existing TradeSafe transaction."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Saved Cards",
+          "description": "Card authorization and management",
+          "item": [
+            {
+              "name": "Get Card Authorization URL",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/cards/authorize/:tokenId?value=50&embed=false",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["cards", "authorize", ":tokenId"],
+                  "query": [
+                    {
+                      "key": "value",
+                      "value": "50",
+                      "description": "Authorization amount in ZAR (minimum R50)"
+                    },
+                    {
+                      "key": "embed",
+                      "value": "false",
+                      "description": "Whether to use embedded authorization"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "tokenId",
+                      "value": "your-token-id-here",
+                      "description": "TradeSafe token ID"
+                    }
+                  ]
+                },
+                "description": "Get a URL where the user can authorize (save) their card for future payments.\n\nThe user will be redirected to this URL to enter their card details. After successful authorization, the card will be saved for future use.\n\n**value**: Minimum R50 for card authorization\n\n**embed**: Set to true for iframe embedding"
+              },
+              "response": []
+            },
+            {
+              "name": "Get Saved Cards",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/cards/:tokenId/saved",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["cards", ":tokenId", "saved"],
+                  "variable": [
+                    {
+                      "key": "tokenId",
+                      "value": "your-token-id-here",
+                      "description": "TradeSafe token ID"
+                    }
+                  ]
+                },
+                "description": "Retrieve all saved cards associated with a TradeSafe token.\n\nReturns masked card numbers, expiry dates, and card IDs for charging."
+              },
+              "response": []
+            },
+            {
+              "name": "Charge Saved Card",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionId\": \"transaction-id-here\",\n  \"cardId\": \"saved-card-id-here\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cards/charge",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["cards", "charge"]
+                },
+                "description": "Charge a previously saved card for a transaction.\n\n**transactionId**: The TradeSafe transaction to pay for (required)\n\n**cardId**: The ID of the saved card to charge (required)\n\n**Note**: The card must have been successfully used in a previous transaction to be available for charging."
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Saved Card",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/cards/:tokenId/saved/:cardId",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["cards", ":tokenId", "saved", ":cardId"],
+                  "variable": [
+                    {
+                      "key": "tokenId",
+                      "value": "your-token-id-here",
+                      "description": "TradeSafe token ID"
+                    },
+                    {
+                      "key": "cardId",
+                      "value": "card-id-to-delete",
+                      "description": "Card ID to delete"
+                    }
+                  ]
+                },
+                "description": "Remove a saved card from TradeSafe. This action cannot be undone."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Transaction Status",
+          "description": "Check TradeSafe transaction status",
+          "item": [
+            {
+              "name": "Get Transaction Status",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/cards/transaction/:transactionId/status",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["cards", "transaction", ":transactionId", "status"],
+                  "variable": [
+                    {
+                      "key": "transactionId",
+                      "value": "transaction-id-here",
+                      "description": "TradeSafe transaction ID"
+                    }
+                  ]
+                },
+                "description": "Retrieve the current status of a TradeSafe transaction.\n\nPossible states include: CREATED, FUNDS_RECEIVED, FUNDS_RELEASED, CANCELLED, etc."
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Files",
+      "description": "File upload endpoints",
+      "item": [
+        {
+          "name": "Get Upload URL (Avatar)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/files/upload/:fileName?fileType=AVATAR",
+              "host": ["{{baseUrl}}"],
+              "path": ["files", "upload", ":fileName"],
+              "query": [
+                {
+                  "key": "fileType",
+                  "value": "AVATAR",
+                  "description": "Type of file being uploaded"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "fileName",
+                  "value": "profile-photo.jpg",
+                  "description": "Original file name with extension"
+                }
+              ]
+            },
+            "description": "Generate a pre-signed URL for uploading an avatar image.\n\nReturns `uploadUri` to PUT the file to, and `storagePath` to use when registering."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Upload URL (National ID)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/files/upload/:fileName?fileType=NATIONAL_ID",
+              "host": ["{{baseUrl}}"],
+              "path": ["files", "upload", ":fileName"],
+              "query": [
+                {
+                  "key": "fileType",
+                  "value": "NATIONAL_ID",
+                  "description": "Type of file being uploaded"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "fileName",
+                  "value": "national-id.jpg",
+                  "description": "Original file name with extension"
+                }
+              ]
+            },
+            "description": "Generate a pre-signed URL for uploading a national ID document."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Upload URL (Driver License)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/files/upload/:fileName?fileType=DRIVER_LICENSE",
+              "host": ["{{baseUrl}}"],
+              "path": ["files", "upload", ":fileName"],
+              "query": [
+                {
+                  "key": "fileType",
+                  "value": "DRIVER_LICENSE",
+                  "description": "Type of file being uploaded"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "fileName",
+                  "value": "drivers-license.jpg",
+                  "description": "Original file name with extension"
+                }
+              ]
+            },
+            "description": "Generate a pre-signed URL for uploading a driver's license document."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Upload URL (Vehicle Registration)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/files/upload/:fileName?fileType=VEHICLE_REGISTRATION",
+              "host": ["{{baseUrl}}"],
+              "path": ["files", "upload", ":fileName"],
+              "query": [
+                {
+                  "key": "fileType",
+                  "value": "VEHICLE_REGISTRATION",
+                  "description": "Type of file being uploaded"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "fileName",
+                  "value": "vehicle-registration.pdf",
+                  "description": "Original file name with extension"
+                }
+              ]
+            },
+            "description": "Generate a pre-signed URL for uploading a vehicle registration document."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Upload URL (Vehicle Insurance)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/files/upload/:fileName?fileType=VEHICLE_INSURANCE",
+              "host": ["{{baseUrl}}"],
+              "path": ["files", "upload", ":fileName"],
+              "query": [
+                {
+                  "key": "fileType",
+                  "value": "VEHICLE_INSURANCE",
+                  "description": "Type of file being uploaded"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "fileName",
+                  "value": "insurance.pdf",
+                  "description": "Original file name with extension"
+                }
+              ]
+            },
+            "description": "Generate a pre-signed URL for uploading a vehicle insurance document."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

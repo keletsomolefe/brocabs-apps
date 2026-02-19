@@ -1,0 +1,70 @@
+{
+  "cli": {
+    "appVersionSource": "local",
+    "version": ">= 16.18.0",
+    "promptToConfigurePushNotifications": false
+  },
+  "build": {
+    "dev": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "STAGE": "dev"
+      }
+    },
+    "shared": {
+      "env": {
+        "MOBILE_DEEP_LINK": "brocabs-rider://",
+        "EXPO_PUBLIC_API_BASE_PATH": "https://brocabs.nativesounds.co.za/api",
+        "GOOGLE_MAPS_PLACE_DETAILS_URL": "https://places.googleapis.com/v1/places",
+        "GOOGLE_MAPS_AUTOCOMPLETE_URL": "https://places.googleapis.com/v1/places:autocomplete",
+        "GOOGLE_MAPS_GEOCODE_URL": "https://maps.googleapis.com/maps/api/geocode/json",
+        "EXPO_PUBLIC_GOOGLE_API_KEY": "AIzaSyAEKZy9r3mIFN6gNvgPhOS4p4TTPMN3TX4",
+        "EXPO_PUBLIC_MQTT_HOST": "brocabs-realtime.nativesounds.co.za",
+        "EXPO_PUBLIC_MQTT_PORT": "80",
+        "EXPO_PUBLIC_MQTT_PORT_SSL": "443",
+        "EXPO_PUBLIC_MQTT_SSL": "true",
+        "EXPO_PUBLIC_MQTT_QOS": "1"
+      }
+    },
+    "preview": {
+      "distribution": "store",
+      "env": {
+        "STAGE": "dev",
+        "IS_EAS": "true"
+      }
+    },
+    "staging": {
+      "distribution": "store",
+      "env": {
+        "STAGE": "staging",
+        "IS_EAS": "true",
+        "EXPO_PUBLIC_GOOGLE_API_KEY": "AIzaSyAEKZy9r3mIFN6gNvgPhOS4p4TTPMN3TX4"
+      }
+    },
+    "prod": {
+      "distribution": "store",
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "env": {
+        "STAGE": "prod",
+        "IS_EAS": "true"
+      }
+    }
+  },
+  "submit": {
+    "staging": {
+      "android": {
+        "track": "internal",
+        "releaseStatus": "draft"
+      }
+    },
+    "prod": {
+      "android": {
+        "track": "internal",
+        "releaseStatus": "draft"
+      }
+    }
+  }
+}
