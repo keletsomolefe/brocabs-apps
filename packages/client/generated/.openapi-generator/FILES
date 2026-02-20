@@ -23,6 +23,7 @@ apis/RidesApi.ts
 apis/SOSContactsApi.ts
 apis/SettingsApi.ts
 apis/SubscriptionsApi.ts
+apis/SupportApi.ts
 apis/VehiclesApi.ts
 apis/WalletApi.ts
 apis/index.ts
@@ -106,6 +107,7 @@ docs/CreateRideQuoteDto.md
 docs/CreateRideQuoteDtoStart.md
 docs/CreateSosContactDto.md
 docs/CreateSubscriptionDto.md
+docs/CreateSupportTicketDto.md
 docs/CreateVariantDto.md
 docs/DeleteAccountDto.md
 docs/DeviceResponseDto.md
@@ -206,6 +208,8 @@ docs/SubscriptionIdDto.md
 docs/SubscriptionPlan.md
 docs/SubscriptionPlanInfoDto.md
 docs/SubscriptionsApi.md
+docs/SupportApi.md
+docs/SupportTicketResponseDto.md
 docs/TokenDepositResponseDto.md
 docs/UpdateBankDetailsDto.md
 docs/UpdateContentDto.md
@@ -319,6 +323,7 @@ models/CreateRideQuoteDto.ts
 models/CreateRideQuoteDtoStart.ts
 models/CreateSosContactDto.ts
 models/CreateSubscriptionDto.ts
+models/CreateSupportTicketDto.ts
 models/CreateVariantDto.ts
 models/DeleteAccountDto.ts
 models/DeviceResponseDto.ts
@@ -402,6 +407,7 @@ models/SubscriptionDriverInfoDto.ts
 models/SubscriptionIdDto.ts
 models/SubscriptionPlan.ts
 models/SubscriptionPlanInfoDto.ts
+models/SupportTicketResponseDto.ts
 models/TokenDepositResponseDto.ts
 models/UpdateBankDetailsDto.ts
 models/UpdateContentDto.ts

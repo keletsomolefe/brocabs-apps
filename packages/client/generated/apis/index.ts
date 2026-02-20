@@ -25,5 +25,6 @@ export * from './RidesApi';
 export * from './SOSContactsApi';
 export * from './SettingsApi';
 export * from './SubscriptionsApi';
+export * from './SupportApi';
 export * from './VehiclesApi';
 export * from './WalletApi';
