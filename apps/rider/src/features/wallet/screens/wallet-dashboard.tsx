@@ -11,8 +11,6 @@ import Carousel from "react-native-reanimated-carousel";
 import {
   maskCardNumber,
   Transaction,
-  TransactionStatus,
-  TransactionType,
 } from "~/features/wallet/types";
 import { useTranslation } from "~/i18n/LocaleContext";
 
@@ -28,52 +26,6 @@ const CARD_GRADIENTS = [
 ];
 
 type TransactionTab = "recent" | "payable";
-
-// Mock transactions for Recent Transactions tab
-const MOCK_RECENT_TRANSACTIONS: Transaction[] = [
-  {
-    id: "1",
-    type: TransactionType.RIDE,
-    status: TransactionStatus.COMPLETED,
-    amount: 50.0,
-    date: new Date("2024-06-04T09:08:00"),
-    description: "Cape Town to City Block",
-    from: "Cape Town",
-    to: "City Block",
-  },
-  {
-    id: "2",
-    type: TransactionType.RIDE,
-    status: TransactionStatus.COMPLETED,
-    amount: 35.0,
-    date: new Date("2024-06-04T09:08:00"),
-    description: "Cape Town to City Block",
-    from: "Cape Town",
-    to: "City Block",
-  },
-  {
-    id: "3",
-    type: TransactionType.RECHARGE,
-    status: TransactionStatus.COMPLETED,
-    amount: 200.0,
-    date: new Date("2024-06-04T09:08:00"),
-    description: "Recharged Wallet",
-  },
-];
-
-// Mock transactions for Payable tab
-const MOCK_PAYABLE_TRANSACTIONS: Transaction[] = [
-  {
-    id: "4",
-    type: TransactionType.RIDE,
-    status: TransactionStatus.PENDING,
-    amount: 50.0,
-    date: new Date("2024-06-04T09:08:00"),
-    description: "Cape Town to City Block",
-    from: "Cape Town",
-    to: "City Block",
-  },
-];
 
 const shadow = getShadow(1, "penumbra");
 
@@ -96,14 +48,11 @@ export function WalletDashboardScreen({
   // TODO: Fetch these from API
   const walletAmount = walletBalance?.balance || 0;
 
+  // Show only real backend data — empty state when no transactions exist
   const filteredTransactions =
     activeTab === "recent"
-      ? transactions && transactions.length > 0
-        ? transactions.slice(0, 10)
-        : MOCK_RECENT_TRANSACTIONS
-      : transactions && transactions.length > 0
-        ? transactions.filter((tx) => tx.status === "PENDING")
-        : MOCK_PAYABLE_TRANSACTIONS;
+      ? (transactions ?? []).slice(0, 10)
+      : (transactions ?? []).filter((tx) => tx.status === "PENDING");
 
   return (
     <ScrollView contentContainerStyle={{ paddingBottom: 120 }} showsVerticalScrollIndicator={false}>

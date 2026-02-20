@@ -17,6 +17,7 @@ import { StyleSheet } from "react-native";
 import { BroScholarText } from "~/shared/ui/bro-scholar-text";
 import { Icon } from "~/shared/ui/icons";
 import { useAppStore } from "~/store";
+import { useLocationStore } from "@brocabs/ui/stores/location-store";
 
 export function CustomDrawerContent(props: DrawerContentComponentProps) {
   const { t } = useTranslation();
@@ -30,6 +31,7 @@ export function CustomDrawerContent(props: DrawerContentComponentProps) {
     }))
   );
   const { data, isLoading } = useUser({ enabled: previouslyAuthenticated });
+  const currentAddress = useLocationStore((state) => state.address?.address);
 
   const handleLogoutPress = () => {
     logoutSheetRef.current?.present();
@@ -78,8 +80,8 @@ export function CustomDrawerContent(props: DrawerContentComponentProps) {
         </Row>
         <Row gap={10} alignItems="center" mt={10}>
           <Icon name="map-pin" width={24} height={24} color={Colors["Primary/600"]} />
-          <Regular color="Neutrals/400" fontSize={16}>
-            {t("common.defaultLocation")}
+          <Regular color="Neutrals/400" fontSize={16} numberOfLines={1}>
+            {currentAddress || t("common.loading")}
           </Regular>
         </Row>
       </Container>
