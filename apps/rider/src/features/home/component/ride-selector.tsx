@@ -1,14 +1,213 @@
+import {
+  RideTypeResponseDtoCodeEnum,
+  type RideTypeResponseDto,
+} from "@brocabs/client";
 import { Button } from "@brocabs/ui/button";
 import { Container, Image, Row, TouchableOpacity } from "@brocabs/ui/layout";
 import { Bold, Medium, Regular, SemiBold } from "@brocabs/ui/text";
+import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
 import { render } from "micromustache";
-import React, { useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Animated, Easing, Platform, StyleSheet, type ViewStyle } from "react-native";
 import { useWatch } from "react-hook-form";
 import { useRideForm } from "~/features/trip/context/ride-context";
 import { useRideTypes } from "~/hooks/use-ride-types";
 import { useTranslation } from "~/i18n/LocaleContext";
 
 import { RIDE_TYPE_ICONS } from "../constants";
+import { BroSclrModal } from "./bro-sclr-modal";
+
+/**
+ * Gradient colors: pink/salmon → lavender/purple → mint/teal
+ * Duplicated to create a seamless loop when rotating.
+ */
+const GLOW_GRADIENT_COLORS = [
+  "#F09AE1",
+  "#B48CFF",
+  "#82D9C4",
+  "#F09AE1",
+  "#B48CFF",
+  "#82D9C4",
+] as const;
+/** Middle purple used for the outer shadow glow */
+const GLOW_SHADOW_COLOR = "#B48CFF";
+/** Gradient border thickness */
+const GRADIENT_BORDER_WIDTH = 2.5;
+/** Size of the rotating gradient square (must be larger than the button) */
+const GRADIENT_SIZE = 300;
+
+/** Fallback Bro SCLR ride type shown when the API doesn't return it */
+const BRO_SCLR_FALLBACK: RideTypeResponseDto = {
+  id: -1,
+  code: RideTypeResponseDtoCodeEnum.BroScholar,
+  displayName: "Bro SCLR",
+  description: "Affordable student rides in a {{capacity_seater}} vehicle",
+  capacity: 4,
+  seatCount: 4,
+  order: 6,
+  dispatchRank: 6,
+  baseFare: 0,
+  perMinuteRate: 0,
+  perKmRate: 0,
+  minFare: 0,
+  active: true,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+};
+
+function GlowingButton({
+  isSelected,
+  onPress,
+  displayName,
+}: {
+  isSelected: boolean;
+  onPress: () => void;
+  displayName: string;
+}) {
+  const rotateAnim = useRef(new Animated.Value(0)).current;
+  const glowAnim = useRef(new Animated.Value(0)).current;
+
+  // Continuous rotation for the gradient border
+  useEffect(() => {
+    const rotation = Animated.loop(
+      Animated.timing(rotateAnim, {
+        toValue: 1,
+        duration: 3000,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }),
+    );
+    rotation.start();
+    return () => rotation.stop();
+  }, [rotateAnim]);
+
+  // Pulsing shadow glow
+  useEffect(() => {
+    const pulse = Animated.loop(
+      Animated.sequence([
+        Animated.timing(glowAnim, {
+          toValue: 1,
+          duration: 1800,
+          easing: Easing.inOut(Easing.sin),
+          useNativeDriver: false,
+        }),
+        Animated.timing(glowAnim, {
+          toValue: 0,
+          duration: 1800,
+          easing: Easing.inOut(Easing.sin),
+          useNativeDriver: false,
+        }),
+      ]),
+    );
+    pulse.start();
+    return () => pulse.stop();
+  }, [glowAnim]);
+
+  const spin = rotateAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "360deg"],
+  });
+
+  const shadowRadius = glowAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [6, 14],
+  });
+
+  const shadowOpacity = glowAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0.4, 0.8],
+  });
+
+  const elevation = glowAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [4, 10],
+  });
+
+  const animatedShadow: Animated.AnimatedProps<ViewStyle> = Platform.select({
+    ios: {
+      shadowColor: GLOW_SHADOW_COLOR,
+      shadowOffset: { width: 0, height: 0 },
+      shadowOpacity: shadowOpacity as unknown as number,
+      shadowRadius: shadowRadius as unknown as number,
+    },
+    android: {
+      elevation: elevation as unknown as number,
+      shadowColor: GLOW_SHADOW_COLOR,
+    },
+    default: {
+      shadowColor: GLOW_SHADOW_COLOR,
+      shadowOffset: { width: 0, height: 0 },
+      shadowOpacity: shadowOpacity as unknown as number,
+      shadowRadius: shadowRadius as unknown as number,
+    },
+  })!;
+
+  return (
+    <Animated.View style={[glowStyles.outerWrapper, animatedShadow]}>
+      {/* Clipped container that reveals only the border-sized ring of gradient */}
+      <Animated.View style={glowStyles.clipContainer}>
+        {/* Oversized gradient that rotates to create the animated border effect */}
+        <Animated.View
+          style={[
+            glowStyles.spinningGradientWrapper,
+            { transform: [{ rotate: spin }] },
+          ]}>
+          <LinearGradient
+            colors={[...GLOW_GRADIENT_COLORS]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={glowStyles.spinningGradient}
+          />
+        </Animated.View>
+
+        {/* Inner button sits on top, creating the border gap */}
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={onPress}
+          style={glowStyles.innerButton}
+          backgroundColor={isSelected ? "Primary/400" : "Bg Color"}
+          alignItems="center"
+          justifyContent="center">
+          <SemiBold fontSize={12} color={isSelected ? "white" : "Primary/50"}>
+            {displayName}
+          </SemiBold>
+        </TouchableOpacity>
+      </Animated.View>
+    </Animated.View>
+  );
+}
+
+const glowStyles = StyleSheet.create({
+  outerWrapper: {
+    width: "48%",
+    borderRadius: 20,
+    marginBottom: 0,
+  },
+  clipContainer: {
+    borderRadius: 20,
+    overflow: "hidden",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  spinningGradientWrapper: {
+    position: "absolute",
+    width: GRADIENT_SIZE,
+    height: GRADIENT_SIZE,
+  },
+  spinningGradient: {
+    width: "100%",
+    height: "100%",
+  },
+  innerButton: {
+    borderRadius: 20 - GRADIENT_BORDER_WIDTH,
+    margin: GRADIENT_BORDER_WIDTH,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    // Ensure inner button fills width so the gradient only shows as a border
+    alignSelf: "stretch",
+  },
+});
 
 interface Props {
   onRequestRide: () => void;
@@ -18,8 +217,18 @@ export function RideSelector({ onRequestRide }: Props) {
   const { t } = useTranslation();
   const { form } = useRideForm();
   const { data: rideTypesResponse } = useRideTypes();
+  const [broSclrModalVisible, setBroSclrModalVisible] = useState(false);
 
-  const rideTypes = useMemo(() => rideTypesResponse?.data || [], [rideTypesResponse]);
+  const rideTypes = useMemo(() => {
+    const apiTypes = rideTypesResponse?.data || [];
+    const hasBroSclr = apiTypes.some(
+      (rt) => rt.code === RideTypeResponseDtoCodeEnum.BroScholar,
+    );
+    if (!hasBroSclr) {
+      return [...apiTypes, BRO_SCLR_FALLBACK];
+    }
+    return apiTypes;
+  }, [rideTypesResponse]);
   const selectedRideId = useWatch({ control: form.control, name: "rideType" });
 
   useEffect(() => {
@@ -31,6 +240,19 @@ export function RideSelector({ onRequestRide }: Props) {
   const handleRequestRide = () => {
     onRequestRide();
   };
+
+  const handleBroSclrPress = useCallback(() => {
+    setBroSclrModalVisible(true);
+  }, []);
+
+  const handleBroSclrApply = useCallback(() => {
+    setBroSclrModalVisible(false);
+    router.push("/bro-scholar/create-application");
+  }, []);
+
+  const handleBroSclrClose = useCallback(() => {
+    setBroSclrModalVisible(false);
+  }, []);
 
   if (rideTypes.length <= 0) {
     return null;
@@ -95,6 +317,18 @@ export function RideSelector({ onRequestRide }: Props) {
         <Row gap={10} flexWrap="wrap" justifyContent="space-between">
           {rideTypes.map((ride) => {
             const isSelected = ride.id === activeRideId;
+            const isBroSclr = ride.code === RideTypeResponseDtoCodeEnum.BroScholar;
+
+            if (isBroSclr) {
+              return (
+                <GlowingButton
+                  key={ride.id}
+                  isSelected={isSelected}
+                  onPress={handleBroSclrPress}
+                  displayName={ride.displayName}
+                />
+              );
+            }
 
             return (
               <TouchableOpacity
@@ -126,6 +360,13 @@ export function RideSelector({ onRequestRide }: Props) {
         size="md"
         disabled={!form.formState.isValid}
         onPress={handleRequestRide}
+      />
+
+      {/* Bro SCLR application popup */}
+      <BroSclrModal
+        visible={broSclrModalVisible}
+        onApply={handleBroSclrApply}
+        onClose={handleBroSclrClose}
       />
     </Container>
   );

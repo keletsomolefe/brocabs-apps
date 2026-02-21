@@ -53,7 +53,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
       <View style={styles.headerContainer}>
         <View style={styles.headerRow}>
           <Image
-            source={AssetFiles.images["logo-black"]}
+            source={AssetFiles.images["logo-dark"]}
             contentFit="contain"
             style={styles.logo}
           />

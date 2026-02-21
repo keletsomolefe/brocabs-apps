@@ -59,7 +59,7 @@ export function CustomDrawerContent(props: DrawerContentComponentProps) {
       <Container px={20} pt={20}>
         <Row justifyContent="space-between" alignItems="center">
           <Image
-            source={AssetFiles.images["logo-black"]}
+            source={AssetFiles.images["logo-dark"]}
             contentFit="contain"
             width={95.4}
             height={36}
